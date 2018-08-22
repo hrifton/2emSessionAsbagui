@@ -16,22 +16,9 @@ class ArtisteController extends Controller
      */
     public function index()
     {
-        $artist= Artiste::orderBy('created_at', 'desc')->get();
-        $arr=new Artiste();
-        $apiNdb=$arr->api_artist();
-        return [$artist,$apiNdb];
+        $artist=new Artiste();
+        return $artist->getall();
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
 
 
     /**
@@ -42,50 +29,11 @@ class ArtisteController extends Controller
      */
     public function store()
     {
-
-        request()->validate([
-            'nom' => ['required'],
-            'prenom' => ['required'],
-            'slug' => ['required'],
-        ]);
-
-        return Artiste::create([
-
-            'nom' => request('nom'),
-            'prenom' => request('prenom'),
-            'slug' => request('slug'),
-        ]);
-
-
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $a=new Artiste;
+        return $a->saveArtiste();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $nerd = Artiste::find($id);

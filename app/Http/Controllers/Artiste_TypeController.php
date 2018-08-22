@@ -16,11 +16,7 @@ class Artiste_TypeController extends Controller
      */
     public function index()
     {
-        $artist_id=Artiste::where('slug','Estelle Clément-Bealem')->pluck('id');
-        $type_id=Type::where('type','Auteur')->pluck('id');
-        $type_id=reset($type_id);
-        $type_id=reset($type_id);
-        echo $type_id;
+        return Type::all();
 
 
     }
@@ -52,7 +48,7 @@ class Artiste_TypeController extends Controller
         return Artiste_Type::create([
             'artiste_id' => $artist_id,
             'type_id'=>$type_id]);
-return "artisteTYpe pppppppp";
+
     }
 
     /**

@@ -244,9 +244,9 @@
                             created_at:result.data.created_at})
                     axios.post('/type',{
                         type:this.selected})
-                        .then((result)=>console.log(result.data)),
+                        .then((response)=>console.log(response.data)),
                         axios.post('/artiste_type',{
-                            slug:result.data.slug,
+                            slug:this.nom+this.prenom,
                             type:this.selected
                         }).then((result)=>
                             console.log((result.data))),

@@ -75704,10 +75704,10 @@ var items = [];
                     type: _this3.selected,
                     created_at: result.data.created_at });
                 axios.post('/type', {
-                    type: _this3.selected }).then(function (result) {
-                    return console.log(result.data);
+                    type: _this3.selected }).then(function (response) {
+                    return console.log(response.data);
                 }), axios.post('/artiste_type', {
-                    slug: result.data.slug,
+                    slug: _this3.nom + _this3.prenom,
                     type: _this3.selected
                 }).then(function (result) {
                     return console.log(result.data);
