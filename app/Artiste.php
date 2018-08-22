@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Artiste extends Model
 {
+
+    public function types(){
+        return $this->belongsToMany('App\\Models\Type','artistes_types','id','type_id');
+    }
+
     protected $fillable = ['nom', 'prenom', 'slug'];
 
 

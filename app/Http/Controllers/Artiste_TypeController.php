@@ -16,6 +16,12 @@ class Artiste_TypeController extends Controller
      */
     public function index()
     {
+        $artist_id=Artiste::where('slug','Estelle Clément-Bealem')->pluck('id');
+        $type_id=Type::where('type','Auteur')->pluck('id');
+        $type_id=reset($type_id);
+        $type_id=reset($type_id);
+        echo $type_id;
+
 
     }
 
@@ -38,11 +44,15 @@ class Artiste_TypeController extends Controller
     public function store()
     {   $artist_id=Artiste::where('slug',request('slug'))->pluck('id');
         $type_id=Type::where('type',request('type'))->pluck('id');
+        $artist_id=reset($artist_id);
+        $artist_id=reset($artist_id);
+        $type_id=reset($type_id);
+        $type_id=reset($type_id);
 
-        Artiste_Type::create([
-        'artiste_id' => $artist_id[0],
-            'type_id'=>$type_id[0]]);
-return view('/layouts.welcome');
+        return Artiste_Type::create([
+            'artiste_id' => $artist_id,
+            'type_id'=>$type_id]);
+return "artisteTYpe pppppppp";
     }
 
     /**

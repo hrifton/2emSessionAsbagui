@@ -38,7 +38,7 @@ class TypeController extends Controller
         /**
          * controlle si le type de job existe dejan
          */
-        if (!empty(Type::where('type', 'p')->get())) {
+        if (Type::where('type', request('type'))->count()==0) {
             request()->validate([
                 'type' => ['required'],
             ]);

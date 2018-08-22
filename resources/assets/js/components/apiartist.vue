@@ -54,7 +54,7 @@
                  :sort-by.sync="sortBy"
                  :sort-desc.sync="sortDesc"
                  :sort-direction="sortDirection"
-                 @filtered="onFiltered"
+
         >
             <template slot="name" slot-scope="row">{{row.value}} {{row.familyName}}</template>
             <template slot="actions" slot-scope="row">
@@ -147,7 +147,7 @@
                 axios.post('/artiste', {
                     prenom: artist.name,
                     nom: artist.familyName,
-                    slug:artist.fullName,
+                    slug:artist.slug,
                     type:artist.jobTitle,
 
                 }).then((result)=>{console.log(result)
@@ -172,11 +172,7 @@
                 this.modalInfo.title = ''
                 this.modalInfo.content = ''
             },
-            onFiltered (filteredItems) {
-                // Trigger pagination to update the number of buttons/pages due to filtering
-                this.totalRows = filteredItems.length
-                this.currentPage = 1
-            }
+
         }
     }
 </script>

@@ -75622,13 +75622,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 var items = [];
-var options = [];
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             type: '',
-            selected: null,
+            selected: '',
             options: [],
             nom: '',
             prenom: '',
@@ -75674,9 +75673,10 @@ var options = [];
     },
 
     methods: {
-        getAndFormatDate: function getAndFormatDate() {
-            return new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
-        },
+        /* getAndFormatDate(){
+             return new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "
+                 +new Date().getHours()+":"+new Date().getMinutes()+":"+new Date().getSeconds()
+         },*/
         saveType: function saveType() {
             var _this2 = this;
 
@@ -75694,16 +75694,24 @@ var options = [];
                 prenom: this.prenom,
                 nom: this.nom,
                 slug: this.nom + this.prenom
+
             }).then(function (result) {
                 console.log(result.data), _this3.items.unshift({
                     id: result.data.id,
                     nom: result.data.nom,
                     prenom: result.data.prenom,
                     slug: result.data.slug,
+                    type: _this3.selected,
                     created_at: result.data.created_at });
-                console.log("type" + _this3.selected);
-                // axios.post('/type',{ type:this.selected}).then((result)=>console.log(result))
-                // axios.post('/artist_type',[this.slug,this.type]).then((result)=>console.log((result.data)))
+                axios.post('/type', {
+                    type: _this3.selected }).then(function (result) {
+                    return console.log(result.data);
+                }), axios.post('/artiste_type', {
+                    slug: result.data.slug,
+                    type: _this3.selected
+                }).then(function (result) {
+                    return console.log(result.data);
+                }), console.log(result.data.slug + _this3.selected);
             });
         },
         suppr: function suppr(artist) {
@@ -75731,12 +75739,12 @@ var options = [];
             this.items[this.items.indexOf(artist)] = { nom: this.nomup, prenom: this.prenomup, slug: this.slug, created_at: artist.created_at };
             console.log(this.items);
         }
-    },
-    onFiltered: function onFiltered(filteredItems) {
-        // Trigger pagination to update the number of buttons/pages due to filtering
-        this.totalRows = filteredItems.length;
-        this.currentPage = 0;
     }
+    /* onFiltered (filteredItems) {
+         // Trigger pagination to update the number of buttons/pages due to filtering
+         this.totalRows = filteredItems.length
+         this.currentPage = 0
+     }*/
 });
 
 /***/ }),
@@ -76142,8 +76150,7 @@ var render = function() {
                           },
                           "update:sortDesc": function($event) {
                             _vm.sortDesc = $event
-                          },
-                          filtered: _vm.onFiltered
+                          }
                         },
                         scopedSlots: _vm._u([
                           {
@@ -76602,7 +76609,7 @@ var items = [];
             axios.post('/artiste', {
                 prenom: artist.name,
                 nom: artist.familyName,
-                slug: artist.fullName,
+                slug: artist.slug,
                 type: artist.jobTitle
 
             }).then(function (result) {
@@ -76620,11 +76627,6 @@ var items = [];
         resetModal: function resetModal() {
             this.modalInfo.title = '';
             this.modalInfo.content = '';
-        },
-        onFiltered: function onFiltered(filteredItems) {
-            // Trigger pagination to update the number of buttons/pages due to filtering
-            this.totalRows = filteredItems.length;
-            this.currentPage = 1;
         }
     }
 });
@@ -76870,8 +76872,7 @@ var render = function() {
           },
           "update:sortDesc": function($event) {
             _vm.sortDesc = $event
-          },
-          filtered: _vm.onFiltered
+          }
         },
         scopedSlots: _vm._u([
           {

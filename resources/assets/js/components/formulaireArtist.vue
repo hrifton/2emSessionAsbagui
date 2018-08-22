@@ -86,7 +86,7 @@
                                  :sort-by.sync="sortBy"
                                  :sort-desc.sync="sortDesc"
                                  :sort-direction="sortDirection"
-                                 @filtered="onFiltered"
+
                         >
                             <template slot="name" slot-scope="row">{{row.value.first}} {{row.value.last}}</template>
 
@@ -161,7 +161,7 @@
 
 <script>
     const items = []
-    const options = []
+
 
 
 
@@ -169,7 +169,7 @@
         data () {
             return {
                 type:'',
-                selected:null,
+                selected:'',
                 options:[],
                 nom:'',
                 prenom:'',
@@ -211,10 +211,10 @@
 
         },
         methods: {
-            getAndFormatDate(){
-                return new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "
-                    +new Date().getHours()+":"+new Date().getMinutes()+":"+new Date().getSeconds()
-            },
+            /* getAndFormatDate(){
+                 return new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "
+                     +new Date().getHours()+":"+new Date().getMinutes()+":"+new Date().getSeconds()
+             },*/
             saveType(){
                 //console.log("ok nouveau type");
                 axios.post('/type',{type:this.type})
@@ -231,7 +231,8 @@
                 axios.post('/artiste', {
                     prenom: this.prenom,
                     nom: this.nom,
-                    slug:this.nom+this.prenom
+                    slug:this.nom+this.prenom,
+
                 }).then((result)=>{
                     console.log(result.data),
                         this.items.unshift({
@@ -239,10 +240,17 @@
                             nom:result.data.nom,
                             prenom:result.data.prenom,
                             slug:result.data.slug,
+                            type:this.selected,
                             created_at:result.data.created_at})
-                    console.log("type"+this.selected)
-                    // axios.post('/type',{ type:this.selected}).then((result)=>console.log(result))
-                           // axios.post('/artist_type',[this.slug,this.type]).then((result)=>console.log((result.data)))
+                    axios.post('/type',{
+                        type:this.selected})
+                        .then((result)=>console.log(result.data)),
+                        axios.post('/artiste_type',{
+                            slug:result.data.slug,
+                            type:this.selected
+                        }).then((result)=>
+                            console.log((result.data))),
+                        console.log(result.data.slug+this.selected)
                 })
             },
             suppr(artist){
@@ -280,11 +288,11 @@
 
 
         },
-        onFiltered (filteredItems) {
-            // Trigger pagination to update the number of buttons/pages due to filtering
-            this.totalRows = filteredItems.length
-            this.currentPage = 0
-        }
+        /* onFiltered (filteredItems) {
+             // Trigger pagination to update the number of buttons/pages due to filtering
+             this.totalRows = filteredItems.length
+             this.currentPage = 0
+         }*/
     }
 
 </script>
